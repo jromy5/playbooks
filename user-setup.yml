@@ -1,0 +1,8 @@
+---
+  - name: User setup
+    hosts: all
+    tasks:
+      - name: Set up git
+        copy:
+          source: files/.gitconfig
+          dest: /home/student/.gitconfig

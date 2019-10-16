@@ -1,0 +1,21 @@
+---
+  - name: Setup for development of systemd
+    hosts: all
+    tasks:
+      - name: Clone systemd repo
+        git:
+          repo: 'https://github.com/systemd/systemd'
+          dest: /home/zbyszek/src/systemd
+          clone: yes
+          update: no
+        tags: systemd
+
+      - name: Install the build dependencies for OpenSSL and Python3 (Fedora etc)
+        command:
+          dnf builddep -y systemd
+        args:
+          warn: false
+        register: dnf_result
+        become: yes
+        when: ansible_pkg_mgr == 'dnf'
+        changed_when: '"Nothing to do" not in dnf_result.stdout'

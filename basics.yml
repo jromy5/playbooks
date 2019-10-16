@@ -1,0 +1,23 @@
+---
+  - name: Provision Software
+    remote_user: root
+    hosts: all
+    tasks:
+
+      - name: Install basic tools
+        dnf:
+          name: "{{ packages }}"
+        tags: packages
+        become: yes
+        vars:
+          packages:
+            - htop
+            - zsh
+            - emacs-nox
+            - ripgrep
+            - screen
+            - dstat
+            - git
+            - curl
+            - ncdu
+            - moreutils

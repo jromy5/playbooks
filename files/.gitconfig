@@ -1,0 +1,83 @@
+[user]
+	name = Zbigniew Jędrzejewski-Szmek
+	email = zbyszek@in.waw.pl
+	signingkey = CFEB557E
+[alias]
+        lol = log --graph --decorate --pretty=oneline --abbrev-commit
+        lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
+	lnew = log --graph --decorate --pretty=oneline --abbrev-commit origin/master..
+	lgf = log --oneline --boundary --first-parent
+	diffab = diff --src-prefix=a/ --dst-prefix=b/
+	format-patch-ab = format-patch --src-prefix=a/ --dst-prefix=b/
+	new = !gitk --all --not ORIG_HEAD
+        ls = ls-files
+        cp = cherry-pick
+	diffi = diff --no-index
+        revlog = log --stat --reverse -p
+        grepi = grep --no-index
+	pr-fetch = "!f() { git fetch -fu ${2:-origin} refs/pull/$1/head:pr/$1; }; f"
+	pr = "!f() { git fetch -fu ${2:-origin} refs/pull/$1/head:pr/$1 && git checkout pr/$1; }; f"
+	pr-merge = "!f() { git fetch -fu ${2:-origin} refs/pull/$1/head:pr/$1 && git merge pr/$1 --no-ff --edit -m 'Merge pull request #'$1' from …'; }; f"
+	pr-clean = "!git for-each-ref refs/heads/pr/* --format=\"%(refname)\" | while read ref ; do branch=${ref#refs/heads/} ; git branch -D $branch ; done"
+
+        branch-info = "!sh -c 'git branch --list --no-color | sed -e \"s/*/ /\" | while read branch; do git log -1 --format=format:\"%Cred$branch:%Cblue %s %Cgreen%h%Creset (%ar)\" $branch; done'"
+
+        tag-info = "!sh -c 'git for-each-ref --format=\"%(refname:short)\" refs/tags | while read tag; do git --no-pager log -1 --format=format:\"$tag %at\" $tag; echo; done | sort -k 2 | cut -f 1 --delimiter=\" \" | while read tag; do fmt=\"%Cred$tag:%Cblue %s %Cgreen%h%Creset (%ai)\"; git --no-pager log -1 --format=format:\"$fmt\" $tag; echo; done'" 
+        gh-trim = "!sh -cx 'git branch -D ${0}; git push keszybz :${0}'"
+
+[core]
+	editor = emacs -nw
+	abbrev = 10
+	pager = /home/zbyszek/src/diff-so-fancy/diff-so-fancy | less --tabs=4 -RFX
+[clean]
+	requireForce = false
+[help]
+	autocorrect = 10
+[rerere]
+	enabled = true
+[rebase]
+	autosquash = true
+[sendemail]
+	smtpencryption = tls
+	smtpserver = kawka.in.waw.pl
+	smtpuser = zbyszek
+	smtpserverport = 587
+	chainreplyto = false
+	confirm = auto
+	smtpsslcertpath = 
+[diff]
+	noprefix = true
+	compactionHeuristic = true
+	algorithm = patience
+	renameLimit = 20000
+
+[diff]
+        tool = meld
+[difftool]
+        prompt = false
+[difftool "meld"]
+        cmd = meld "$LOCAL" "$REMOTE"
+    
+[gui]
+	fontdiff = -family \"DejaVu Sans Mono\" -size 8 -weight normal -slant roman -underline 0 -overstrike 0
+	trustmtime = true
+	pruneduringfetch = true
+[log]
+	decorate = short
+[push]
+	default = current
+[merge]
+	defaultToUpstream = true
+[bz]
+	default-tracker = bugzilla.redhat.com
+[bz-tracker "bugzilla.redhat.com"]
+        default-product = Fedora
+	default-version = rawhide                                                                    
+[interactive]
+	diffFilter = diff-highlight
+[branch]
+	autoSetupRebase = remote
+[gpg]
+	program = gpg2
+[grep]
+	patternType = perl
