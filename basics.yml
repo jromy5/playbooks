@@ -21,3 +21,13 @@
             - curl
             - ncdu
             - moreutils
+
+      - name: Install development tools
+        dnf:
+          name: "{{ packages }}"
+        tags: packages
+        become: yes
+        vars:
+          packages:
+            - mock
+            - "@C Development Tools and Libraries"
